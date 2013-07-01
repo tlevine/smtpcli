@@ -112,7 +112,7 @@ def send_confirm():
     print "To: " + to_addr
     print "Subject: " + subject
     print "Body: " + body
-    if args.no_confirm or query_yes_no("Send this email?") == False:
+    if (args.no_confirm == False) and (query_yes_no("Send this email?") == False):
         sys.exit()
 
 
