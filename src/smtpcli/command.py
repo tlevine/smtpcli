@@ -17,7 +17,7 @@ config_file = os.environ.get('HOME') + '/.smtpcli.conf'
 
 if os.path.isfile(config_file):
     smtpserver, port, encoding, from_addr, password =   False, False, False, False, False
-else: 
+else:
     print '''
     Error: $HOME/.smtpcli.conf does not exist.
     Usage: cp smtpcli/smtpcli.conf $HOME/.smtpcli.conf
@@ -25,7 +25,7 @@ else:
     sys.exit()
 conf = ConfigParser.SafeConfigParser()
 conf.read(config_file)
-smtpserver = conf.get('smtpcli', 'smtp-server') 
+smtpserver = conf.get('smtpcli', 'smtp-server')
 port        = conf.get('smtpcli', 'port')
 encoding    = conf.get('smtpcli', 'encoding')
 from_addr   = conf.get('smtpcli', 'mailaddress')
@@ -36,6 +36,7 @@ to_addr      = False
 subject      = False
 body         = False
 file         = False
+no_confirm   = False
 
 #Define sub-command and command line options
 
@@ -48,13 +49,12 @@ parser.add_argument('-v', '--version', action='version',
 parser.add_argument('-t', '--to', metavar='dest_address', help='destination mail address', required=True)
 parser.add_argument('-s', '--subject', metavar='subject', help='email subject', required=True)
 parser.add_argument('-f', '--file', metavar='filename', help='the file containing email body',required=True, type=argparse.FileType('r'))
-#parser.add_argument('--no-confirm', metavar='no-confirm', help='no confirm')
+parser.add_argument('--no-confirm', help='don\'t ask for confirmation', required=False, action = 'store_true')
 args = parser.parse_args()
 
 to_addr = args.to
 subject = args.subject
 body = args.file.read()
-
 
 def create_message(from_addr, to_addr, subject, body, encoding):
     '''
@@ -112,7 +112,7 @@ def send_confirm():
     print "To: " + to_addr
     print "Subject: " + subject
     print "Body: " + body
-    if query_yes_no("Send this email?") == False:
+    if args.no_confirm or query_yes_no("Send this email?") == False:
         sys.exit()
 
 
