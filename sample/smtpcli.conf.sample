@@ -1,6 +1,6 @@
 [smtpcli]
-smtp-server  = smtp.exmple.org  
-port         = 25 
-encoding     = ISO-2022-JP   
-mailaddress  = user001@exmple.org 
-password     = user001pw 
+smtp-server  = mail.gandi.net
+port         = 587 
+encoding     = UTF-8
+mailaddress  = user002@example.com 
+password     = user002pw 
